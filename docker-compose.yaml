@@ -1,0 +1,35 @@
+version: '3'
+services:
+  web1:
+    image: 'jun914/apache2:v1.0'
+    networks :
+      - mynet
+  web2:
+    image: 'jun914/nginx:v1.0'
+    networks :
+      - mynet
+  web3:
+    image: 'jun914/nginx:v1.0'
+    networks :
+      - mynet
+  web4:
+    image: 'jun914/apache2:v1.0'
+    networks :
+      - mynet
+  lb:
+    volumes:
+    - type: bind
+      source: ubuntu_nginx_loadbalancer/nginx/sites-available/
+      target: /etc/nginx/sites-available
+    image: 'loadbalancer:v0.5'
+    networks :
+       - mynet
+    ports:
+       - 80:80
+    depends_on:
+       - web1
+       - web2
+       - web3
+       - web4
+networks:
+   mynet:
