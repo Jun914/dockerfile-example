@@ -10,8 +10,8 @@ pipeline {
         stage('Github Clone & Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/AnByoungHyun/dockerfile-example.git'
-                    // credentialsId: 'github-jenkins-cicd'
+                    url: 'https://github.com/Jun914/dockerfile-example.git'
+                    // credentialsId: 'docker-example'
             }
         }
         stage('Docker Build - httpd') {
@@ -20,7 +20,7 @@ pipeline {
                     // Docker hub 에 로그인 하기 위해 사용
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub') {
                         // Dockerfile 로 이미지 생성
-                        docker.build('abhyuni/httpd', './ubuntu_apache2')
+                        docker.build('jun914/httpd', '--no-cache ./ubuntu_apache2')
                     }
                 }
             }
@@ -31,7 +31,7 @@ pipeline {
                     // Docker hub 에 로그인 하기 위해 사용
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub') {
                         // Dockerfile 로 이미지 생성
-                        docker.build('abhyuni/nginx', './ubuntu_nginx')
+                        docker.build('jun914/nginx', '--no-cache ./ubuntu_nginx')
                     }
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
                     // Docker hub 에 로그인 하기 위해 사용
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub') {
                         // Dockerfile 로 이미지 생성
-                        docker.build('abhyuni/loadbalancer', './ubuntu_nginx_loadbalancer')
+                        docker.build('jun914/loadbalancer', '--no-cache ./ubuntu_nginx_loadbalancer')
                     }
                 }
             }
@@ -52,9 +52,9 @@ pipeline {
                 script {
                     // Docker hub 에 로그인 하기 위해 사용
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub') {
-                        def httpd_img = docker.image('abhyuni/httpd')
-                        def nginx_img = docker.image('abhyuni/nginx')
-                        def loadbalancer_img = docker.image('abhyuni/loadbalancer')
+                        def httpd_img = docker.image('jun914/httpd')
+                        def nginx_img = docker.image('jun914/nginx')
+                        def loadbalancer_img = docker.image('jun914/loadbalancer')
                         
                         httpd_img.push('latest')
                         nginx_img.push('latest')
