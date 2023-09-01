@@ -6,7 +6,7 @@ RUN apt-get update -y
 RUN apt-get install -y openjdk-17-jdk
 RUN apt-get install -y ssh
 RUN apt-get install -y git
-RUN mkdir -p /run/sshd
+RUN mkdir -p /run/sshd # ssh 사용을 위해서 만들어주어야함
 RUN apt-get clean
 RUN sed -i "s/#PasswordAuthentication yes/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 
